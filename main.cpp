@@ -41,7 +41,6 @@ std::array<T, N1 + N2> mergeSorted(
     return result;
 }
 
-// Задача 2: розділити std::vector на парні і непарні
 template <typename T>
 void splitEvenOdd(
     const std::vector<T>& input,
@@ -49,11 +48,25 @@ void splitEvenOdd(
     std::vector<T>& odds)
 {
     for (auto it = input.begin(); it != input.end(); ++it) {
-        if (*it % 2 == 0) {
-            evens.push_back(*it);
-        }
-        else {
-            odds.push_back(*it);
-        }
+        if (*it % 2 == 0) evens.push_back(*it);
+        else               odds.push_back(*it);
     }
+}
+
+// Задача 3: перевірити чи є std::deque паліндромом
+template <typename T>
+bool isPalindrome(const std::deque<T>& d) {
+    if (d.empty()) return true;
+
+    auto front = d.begin();
+    auto back = d.end();
+    --back;
+
+    while (front < back) {
+        if (*front != *back) return false;
+        ++front;
+        --back;
+    }
+
+    return true;
 }
