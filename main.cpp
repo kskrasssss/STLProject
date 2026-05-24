@@ -22,41 +22,38 @@ public:
     }
 };
 
-// Задача 1: об'єднати два відсортованих std::array в один
 template <typename T, std::size_t N1, std::size_t N2>
 std::array<T, N1 + N2> mergeSorted(
     const std::array<T, N1>& a,
     const std::array<T, N2>& b)
 {
     std::array<T, N1 + N2> result{};
-
     auto itA = a.begin();
     auto itB = b.begin();
     auto itR = result.begin();
-
     while (itA != a.end() && itB != b.end()) {
-        if (*itA < *itB) {
-            *itR = *itA;
-            ++itA;
+        if (*itA < *itB) { *itR = *itA; ++itA; }
+        else { *itR = *itB; ++itB; }
+        ++itR;
+    }
+    while (itA != a.end()) { *itR = *itA; ++itA; ++itR; }
+    while (itB != b.end()) { *itR = *itB; ++itB; ++itR; }
+    return result;
+}
+
+// Задача 2: розділити std::vector на парні і непарні
+template <typename T>
+void splitEvenOdd(
+    const std::vector<T>& input,
+    std::vector<T>& evens,
+    std::vector<T>& odds)
+{
+    for (auto it = input.begin(); it != input.end(); ++it) {
+        if (*it % 2 == 0) {
+            evens.push_back(*it);
         }
         else {
-            *itR = *itB;
-            ++itB;
+            odds.push_back(*it);
         }
-        ++itR;
     }
-
-    while (itA != a.end()) {
-        *itR = *itA;
-        ++itA;
-        ++itR;
-    }
-
-    while (itB != b.end()) {
-        *itR = *itB;
-        ++itB;
-        ++itR;
-    }
-
-    return result;
 }
