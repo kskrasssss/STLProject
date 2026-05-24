@@ -13,15 +13,50 @@ public:
     Student(std::string n, int g) : name(n), grade(g) {}
     int getGrade() const { return grade; }
     std::string getName() const { return name; }
-
-    // ќператори пор≥вн€нн€ Ч потр≥бн≥ дл€ mergeSorted
     bool operator<(const Student& other) const { return grade < other.grade; }
     bool operator>(const Student& other) const { return grade > other.grade; }
     bool operator==(const Student& other) const { return grade == other.grade; }
-
-    // ќператор виведенн€ Ч потр≥бен дл€ printContainer
     friend std::ostream& operator<<(std::ostream& os, const Student& s) {
         os << s.name << "(" << s.grade << ")";
         return os;
     }
 };
+
+// «адача 1: об'Їднати два в≥дсортованих std::array в один
+template <typename T, std::size_t N1, std::size_t N2>
+std::array<T, N1 + N2> mergeSorted(
+    const std::array<T, N1>& a,
+    const std::array<T, N2>& b)
+{
+    std::array<T, N1 + N2> result{};
+
+    auto itA = a.begin();
+    auto itB = b.begin();
+    auto itR = result.begin();
+
+    while (itA != a.end() && itB != b.end()) {
+        if (*itA < *itB) {
+            *itR = *itA;
+            ++itA;
+        }
+        else {
+            *itR = *itB;
+            ++itB;
+        }
+        ++itR;
+    }
+
+    while (itA != a.end()) {
+        *itR = *itA;
+        ++itA;
+        ++itR;
+    }
+
+    while (itB != b.end()) {
+        *itR = *itB;
+        ++itB;
+        ++itR;
+    }
+
+    return result;
+}
